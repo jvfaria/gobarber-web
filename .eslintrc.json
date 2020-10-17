@@ -30,9 +30,12 @@
   ],
   "rules": {
     "no-use-before-define": "off",
+    "arrow-parens": "off",
+    "react/prop-types" : "off",
     "react-hooks/rules-of-hooks": "error",
+    "react/jsx-props-no-spreading": "off",
     "react-hooks/exhaustive-deps": "warn",
-    "prettier/prettier": "error",
+    "prettier/prettier": "off",
     "react/jsx-filename-extension": [
       1,
       {
