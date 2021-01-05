@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useContext } from 'react';
 
 import { FiLogIn, FiLock, FiMail } from 'react-icons/fi';
 import * as Yup from 'yup';
@@ -8,15 +8,22 @@ import { FormHandles } from '@unform/core';
 import getValidationErrors from '../../utils/getValidationErrors';
 import { Container, Content, Background } from './styles';
 import Input from '../../components/input';
-
+import { AuthContext } from '../../context/AuthContext';
 import Button from '../../components/button';
 
 import logo from '../../assets/logo.svg';
 
+interface DataProps {
+  email: string;
+  password: string;
+}
+
 const Login: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
-  const handleSubmit = useCallback(async (data: object) => {
+  const { login } = useContext(AuthContext);
+
+  const handleSubmit = useCallback(async (data: DataProps) => {
     try {
       formRef.current?.setErrors({});
       const schema = Yup.object().shape({
@@ -27,6 +34,10 @@ const Login: React.FC = () => {
           .required('Senha obrigatória'),
       });
 
+      login({
+        email: data.email,
+        password: data.password,
+      });
       await schema.validate(data, {
         abortEarly: false,
       });
@@ -36,7 +47,7 @@ const Login: React.FC = () => {
         errors,
       );
     }
-  }, []);
+  }, [login]);
   return (
     <Container>
       <Content>
